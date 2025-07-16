@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Spam Mail Detector</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #e0eafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: #fff;
+      max-width: 800px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .image-box {
+      flex: 1 1 300px;
+      padding: 10px;
+    }
+    .image-box img {
+      width: 100%;
+      border-radius: 12px;
+    }
+    .form-box {
+      flex: 1 1 400px;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    input[type="submit"], .clear-btn {
+      padding: 14px 24px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+    input[type="submit"] {
+      background: #007bff;
+      color: white;
+    }
+    .clear-btn {
+      background: #dc3545;
+      color: white;
+    }
+    .result {
+      margin-top: 25px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      transition: opacity 0.5s;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="image-box">
+      <img src="https://www.clickssl.net/wp-content/uploads/2014/03/email-spamming-banner.jpg" alt="Banner">
+    </div>
+    <div class="form-box">
+      <h1>📬 Spam Mail Detector</h1>
+      <form method="post" id="spamForm">
+        <input type="text" name="message" id="messageInput" placeholder="Enter your message..." value="{{ request.form.message or '' }}" required>
+        <div class="btn-group">
+          <input type="submit" value="Check Message">
+          <button type="button" class="clear-btn" onclick="clearForm()">🧹 Clear</button>
+        </div>
+      </form>
+
+      {% if prediction %}
+        <div class="result" id="resultBox">{{ prediction }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    function clearForm() {
+      document.getElementById("messageInput").value = "";
+      const result = document.getElementById("resultBox");
+      if (result) result.remove();
+    }
+
+    window.onload = () => {
+      const result = document.getElementById("resultBox");
+      const input = document.getElementById("messageInput");
+
+      if (result) {
+        setTimeout(() => {
+          result.style.opacity = "0";
+        }, 9500); // fade before clearing
+
+        setTimeout(() => {
+          result.remove();
+          input.value = "";
+        }, 10000);
+      }
+    };
+  </script>
+</body>
+</html>
